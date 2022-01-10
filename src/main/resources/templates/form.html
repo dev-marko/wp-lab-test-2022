@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WP Exam</title>
+</head>
+<body>
+<!-- The form should submit to NewsController.create or NewsController.update,
+     depending on whether we are creating or editing an entity -->
+<form th:method="POST" th:action="@{'/news/{id}' (id=${news?.getId()})}">
+    <div>
+        <label for="name">Name</label>
+        <input type="text"
+               name="name"
+               th:value="${news?.getName()}"
+               id="name"
+               required>
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <input type="text"
+               name="description"
+               th:value="${news?.getDescription()}"
+               id="description"
+               required>
+    </div>
+    <div>
+        <label for="price">Price</label>
+        <input type="number"
+               name="price"
+               th:value="${news?.getPrice()}"
+               id="price"
+               required>
+    </div>
+    <div>
+        <label>News Type</label><br/>
+        <select id="type" name="type">
+            <!-- For each type you should have one <option> like below  -->
+            <option th:if="${news} != null"
+                    th:selected="${news.getType().toString().equals(type.toString())}"
+                    th:each="type : ${types}"
+                    th:value="${type.name()}"
+                    th:text="${type.name()}">
+            </option>
+            <option th:if="${news} == null"
+                    th:each="type : ${types}"
+                    th:value="${type.name()}"
+                    th:text="${type.name()}">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label>News category</label><br/>
+        <select id="category" name="category">
+            <!-- For each location you should have one <option> like below  -->
+            <option th:if="${news} != null"
+                    th:selected="${news.getCategory().getId() == category.getId()}"
+                    th:each="category : ${categories}"
+                    th:value="${category.getId()}"
+                    th:text="${category.getName()}">
+            </option>
+            <option th:if="${news} == null"
+                    th:each="category : ${categories}"
+                    th:value="${category.getId()}"
+                    th:text="${category.getName()}">
+        </select>
+    </div>
+
+    <button id="submit" type="submit">Submit</button>
+    <a id="back" href="/news" type="button" class="btn btn-primary">Back to news</a>
+</form>
+
+<div>
+    <ul id="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</div>
+
+</body>
+</html>
